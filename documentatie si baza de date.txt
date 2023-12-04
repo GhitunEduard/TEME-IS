@@ -1,0 +1,211 @@
+
+1Clasa principala
+
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class WeddingPlannerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(WeddingPlannerApplication.class, args);
+    }
+}
+
+
+
+2Creare de controller pentru gestionarea cererilor
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class EventController {
+
+    @GetMapping("/events")
+    public String getEvents(Model model) {
+        
+        model.addAttribute("eventName", "Nunta");
+        model.addAttribute("eventDate", "25 Decembrie 2023");
+        return "events";
+    }
+}
+
+
+
+
+
+
+3.Creare sablon pentru afisarea evenimentelor
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Evenimente</title>
+</head>
+<body>
+    <h1>Listă evenimente</h1>
+    <div th:if="${eventName}">
+        <h2 th:text="'Nume eveniment: ' + ${eventName}"></h2>
+        <p th:text="'Data evenimentului: ' + ${eventDate}"></p>
+    </div>
+</body>
+</html>
+
+
+4.Configurare
+
+<dependencies>
+    <!-- Spring Boot Starter Web pentru Spring Web MVC -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- Thymeleaf pentru șabloanele HTML -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+</dependencies>
+
+
+
+
+BAZA DE DATE: -pentru chelneri
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Waiter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    // alte câmpuri specifice chelnerului
+
+    // constructori, getteri, setteri
+}
+
+
+
+-pentru restaurante :
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Restaurant {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    // alte câmpuri specifice restaurantului
+
+    // constructori, getteri, setteri
+}
+
+
+
+-pentru locatii:
+
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Location {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    // alte câmpuri specifice locației
+
+    // constructori, getteri, setteri
+}
+
+
+
+-pentru meniuri:
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Menu {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    // alte câmpuri specifice 
+
+    // constructori, getteri, setteri
+}
+
+
+CONFIGURARE baza de date: 
+
+
+# Configurare H2 Database
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# Crearea automată a tabelelor din entități (ATENȚIE: Această opțiune poate șterge date existente!)
+spring.jpa.hibernate.ddl-auto=create
+
+
+Definirea de repository: 
+
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WaiterRepository extends JpaRepository<Waiter, Long> {
+    
+}
+
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+    
+}
+
+public interface LocationRepository extends JpaRepository<Location, Long> {
+    
+}
+
+public interface MenuRepository extends JpaRepository<Menu, Long> {
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
