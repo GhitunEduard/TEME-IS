@@ -1,0 +1,57 @@
+AdminService.ts
+
+
+
+import axios from 'axios'; 
+
+interface AdminProps {
+  
+  id: number;
+  name: string;
+  
+  
+}
+
+class AdminService {
+  private apiUrl = '/api/admins';
+
+
+  async createAdmin(adminData: AdminProps): Promise<void> {
+    try {
+      await axios.post(this.apiUrl, adminData);
+    } catch (error) {
+      console.error('Erroare la crearea adminului:', error);
+      throw error;
+    }
+  }
+
+  async getAdmins(): Promise<AdminProps[]> {
+    try {
+      const response = await axios.get<AdminProps[]>(this.apiUrl);
+      return response.data;
+    } catch (error) {
+      console.error('Erroare la obținerea adminilor:', error);
+      throw error;
+    }
+  }
+
+  async updateAdmin(adminId: number, adminData: AdminProps): Promise<void> {
+    try {
+      await axios.put(`${this.apiUrl}/${adminId}`, adminData);
+    } catch (error) {
+      console.error('Erroare la actualizarea adminului:', error);
+      throw error;
+    }
+  }
+
+  async deleteAdmin(adminId: number): Promise<void> {
+    try {
+      await axios.delete(`${this.apiUrl}/${adminId}`);
+    } catch (error) {
+      console.error('Erroare la ștergerea adminului:', error);
+      throw error;
+    }
+  }
+}
+
+export default new AdminService();

@@ -1,0 +1,39 @@
+
+
+Admin.tsx
+
+
+
+
+import React from 'react';
+
+interface AdminProps {
+  id: number;
+  username: string;
+  password: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
+
+class Admin extends React.Component<AdminProps, {}> {
+  props: { id: any; username: any; password: any; name: any; email: any; isAdmin: any; };
+  render() {
+    const { id, username, password, name, email, isAdmin } = this.props;
+    
+
+    return (
+      <div>
+        <h2>Admin Details</h2>
+        <p>ID: {id}</p>
+        <p>Username: {username}</p>
+        <p>Password: {password}</p>
+        <p>Name: {name}</p>
+        <p>Email: {email}</p>
+        <p>Is Admin: {isAdmin ? 'Yes' : 'No'}</p>
+      </div>
+    );
+  }
+}
+
+export default Admin;
